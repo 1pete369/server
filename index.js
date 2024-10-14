@@ -1,27 +1,26 @@
-const express= require('express')
-const mongoose = require('mongoose')
-const cors= require('cors')
-const app = express()
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const app = express();
+const userRouter = require("./routes/users");
+require('dotenv').config();
 
-const userRouter = require("./routes/users")
+app.use(cors());
+app.use(express.json());
 
-require('dotenv').config()
+mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 
-app.use(cors())
+const db = mongoose.connection;
+db.on('open', () => {
+    console.log("Connected to Mongodb -> empirev1");
+});
 
-app.use(express.json())
+// Remove app.listen (Vercel handles this)
+// app.listen(process.env.PORT_NUMBER, () => {
+//     console.log(`server started on ${process.env.PORT_NUMBER}`);
+// });
 
-mongoose.connect(process.env.DB_URL)
+app.use('/users', userRouter);
 
-const db = mongoose.connection
-
-db.on('open',()=>{
-    console.log("Connected to Mongodb -> empirev1")
-})
-
-app.listen(process.env.PORT_NUMBER,()=>{
-    console.log(`server started on ${process.env.PORT_NUMBER}`)
-})
-
-
-app.use('/users',userRouter)
+// Export the app for Vercel to handle as a serverless function
+module.exports = app;
