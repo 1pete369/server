@@ -20,7 +20,11 @@ db.on('open', () => {
 //     console.log(`server started on ${process.env.PORT_NUMBER}`);
 // });
 
-app.use('/users', userRouter);
+// app.use('/users', userRouter);
+
+app.get('/',(req,res)=>{
+    res.send({message : "Testing"})
+})
 
 // Export the app for Vercel to handle as a serverless function
 module.exports = app;
