@@ -15,16 +15,12 @@ db.on('open', () => {
     console.log("Connected to Mongodb -> empirev1");
 });
 
-// Remove app.listen (Vercel handles this)
-// app.listen(process.env.PORT_NUMBER, () => {
-//     console.log(`server started on ${process.env.PORT_NUMBER}`);
-// });
+// Add the users route back
+app.use('/users', userRouter);
 
-// app.use('/users', userRouter);
-
-app.get('/',(req,res)=>{
-    res.send({message : "Testing"})
-})
+app.get('/', (req, res) => {
+    res.send({ message: "Testing" });
+});
 
 // Export the app for Vercel to handle as a serverless function
 module.exports = app;
