@@ -9,6 +9,10 @@ router.get('/',async (req,res)=>{
     res.json(usersData)
 })
 
+router.get('/testing',(req,res)=>{
+    res.json({message : "Testing at /testing"})
+})
+
 router.get('/check-user/:id',async (req, res)=>{
     const uid = req.params.id
     try{
